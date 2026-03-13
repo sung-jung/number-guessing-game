@@ -16,6 +16,8 @@ USERNAME_RESULT=$($PSQL "SELECT username FROM users WHERE username = '$USERNAME'
 if [[ -z $USERNAME_RESULT ]]
 then 
   echo -e "\nWelcome, $USERNAME! It looks like this is your first time here."
+  # add player to database
+  INSERT_USERNAME_RESULT=$($PSQL "INSERT INTO users(username) VALUES('$USERNAME')")
 else
   GAMES_PLAYED=$($PSQL "SELECT COUNT(*) FROM games WHERE user_id=(SELECT user_id FROM users WHERE username='$USERNAME')")
   BEST_GAME=$($PSQL "SELECT MIN(guesses) FROM games WHERE user_id=(SELECT user_id FROM users WHERE username='$USERNAME')")
