@@ -22,4 +22,7 @@ else
   echo -e "\nWelcome back, $USERNAME! You have played $GAMES_PLAYED games, and your best game took $BEST_GAME guesses."
 fi
 
-
+#next line printed should be Guess the secret number between 1 and 1000:
+echo "Guess the secret number between 1 and 1000:"
+read GUESS
+NUMBER_OF_GUESSES=1
