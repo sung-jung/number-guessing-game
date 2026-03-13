@@ -16,7 +16,7 @@ if [[ ${#USERNAME} -gt 22 ]]; then
 fi
 
 # check if username exists
-USERNAME_RESULT=$($PSQL "SELECT username FROM users WHERE username = '$USERNAME';")
+USERNAME_RESULT=$($PSQL "SELECT username FROM users WHERE username = '$USERNAME'")
 
 if [[ -z $USERNAME_RESULT ]]
 then 
@@ -39,7 +39,7 @@ else
 fi
 
 # prompt to guess the secret number
-echo "Guess the secret number between 1 and 1000:"
+echo -e "\nGuess the secret number between 1 and 1000:"
 read GUESS
 NUMBER_OF_GUESSES=1
 
