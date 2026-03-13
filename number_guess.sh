@@ -1,6 +1,6 @@
 #!/bin/bash
 # variable to query database
-PSQL="psql --username=freecodecamp --dbname=number_guess -t --no-align -c -q"
+PSQL="psql --username=freecodecamp --dbname=number_guess -t --no-align -q -c"
 
 # generate random number between 1 and 1000
 RANDOM_NUMBER=$(( RANDOM % 1000 + 1 ))
@@ -24,18 +24,18 @@ then
   echo -e "\nWelcome, $USERNAME! It looks like this is your first time here."
 
   # insert new user into database
-  $PSQL "INSERT INTO users(username) VALUES('$USERNAME');"
+  $PSQL "INSERT INTO users(username) VALUES('$USERNAME')"
 
   # get new user's ID
-  USER_ID=$($PSQL "SELECT user_id FROM users WHERE username='$USERNAME';")
+  USER_ID=$($PSQL "SELECT user_id FROM users WHERE username='$USERNAME'")
 else
   # Returning user: get games played and best game
-  GAMES_PLAYED=$($PSQL "SELECT COUNT(*) FROM games WHERE user_id=(SELECT user_id FROM users WHERE username='$USERNAME');")
-  BEST_GAME=$($PSQL "SELECT MIN(guesses) FROM games WHERE user_id=(SELECT user_id FROM users WHERE username='$USERNAME');")
-  echo -e "\nWelcome back, $USERNAME! You have played $GAMES_PLAYED games, and your best game took $BEST_GAME guesses."
+  GAMES_PLAYED=$($PSQL "SELECT COUNT(*) FROM games WHERE user_id=(SELECT user_id FROM users WHERE username='$USERNAME')")
+  BEST_GAME=$($PSQL "SELECT MIN(guesses) FROM games WHERE user_id=(SELECT user_id FROM users WHERE username='$USERNAME')")
+  echo "Welcome back, $USERNAME! You have played $GAMES_PLAYED games, and your best game took $BEST_GAME guesses."
 
   # get existing user's ID
-  USER_ID=$($PSQL "SELECT user_id FROM users WHERE username='$USERNAME';")
+  #USER_ID=$($PSQL "SELECT user_id FROM users WHERE username='$USERNAME';")
 fi
 
 # prompt to guess the secret number
@@ -60,7 +60,7 @@ do
 done
 
 # insert completed game into database
-$PSQL "INSERT INTO games(user_id, guesses) VALUES($USER_ID, $NUMBER_OF_GUESSES);"
+$PSQL "INSERT INTO games(user_id, guesses) VALUES($USER_ID, $NUMBER_OF_GUESSES)"
 
 # success message
 echo "You guessed it in $NUMBER_OF_GUESSES tries. The secret number was $RANDOM_NUMBER. Nice job!"
